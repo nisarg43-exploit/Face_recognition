@@ -15,14 +15,14 @@ class face_recognition:
         self.root.geometry("1530x765+0+0")
         self.root.title("face recognition system")
      #background image 
-        img=Image.open(r"C:/Users/nisar/Documents/face_recognition/bg/background.jpg")
+        img=Image.open(r"bg/background.jpg")
         img=img.resize((1530,765),Image.ANTIALIAS)
         self.photoimg=ImageTk.PhotoImage(img)
         bg_img=Label(self.root,image=self.photoimg)
         bg_img.place(x=0,y=0,width=1530,height=765)
 
     #photos data
-        img1=Image.open(r"C:\Users\nisar\Documents\face_recognition\bg\opendata.jpg")
+        img1=Image.open(r"bg\opendata.jpg")
         img1=img1.resize((220,220),Image.ANTIALIAS)
         self.photoimg1=ImageTk.PhotoImage(img1)
 
@@ -32,7 +32,7 @@ class face_recognition:
         b1_1.place(x=200,y=320,width=220,height=40)
 
     #prepare data
-        img3=Image.open(r"C:\Users\nisar\Documents\face_recognition\bg\reshape.jpg")
+        img3=Image.open(r"bg\reshape.jpg")
         img3=img3.resize((220,220),Image.ANTIALIAS)
         self.photoimg3=ImageTk.PhotoImage(img3)
         b2=Button(bg_img,image=self.photoimg3,cursor="hand2",command=self.reshape)
@@ -41,7 +41,7 @@ class face_recognition:
         b2_2.place(x=450,y=320,width=220,height=40)
 
     #TRain
-        img4=Image.open(r"C:\Users\nisar\Documents\face_recognition\bg\train.jpg")
+        img4=Image.open(r"bg\train.jpg")
         img4=img4.resize((220,220),Image.ANTIALIAS)
         self.photoimg4=ImageTk.PhotoImage(img4)
         b3=Button(bg_img,image=self.photoimg4,cursor="hand2",command=self.train_classiffier)
@@ -50,7 +50,7 @@ class face_recognition:
         b3_3b3.place(x=700,y=320,width=220,height=40)
 
     #detect face
-        img2=Image.open(r"C:\Users\nisar\Documents\face_recognition\bg\face.jpeg")
+        img2=Image.open(r"bg\face.jpeg")
         img2=img2.resize((220,220),Image.ANTIALIAS)
         self.photoimg2=ImageTk.PhotoImage(img2)
 
@@ -68,25 +68,25 @@ class face_recognition:
 
 #****************show data folder*************************
     def open_img(self):
-        os.startfile(r"C:\Users\nisar\Documents\face_recognition\train")
+        os.startfile(r"train")
 
 #***************preparing the data********************************
     
     def reshape(self):
         
-        path = ('C:/Users/nisar/Documents/face_recognition/train/')
+        path = ('train/')
         face_cascade=cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
         for i, filename in enumerate(os.listdir(path)):
-            os.rename("C:/Users/nisar/Documents/face_recognition/train/" + filename, "C:/Users/nisar/Documents/face_recognition/train/" + "user." + str(i) + ".jpg")
+            os.rename("train/" + filename, "train/" + "user." + str(i) + ".jpg")
 
         for l, filename in enumerate(os.listdir(path)):
-            img=cv2.imread('C:/Users/nisar/Documents/face_recognition/train/user.'+ str(l)+'.jpg')
+            img=cv2.imread('train/user.'+ str(l)+'.jpg')
             gray=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
             detectface=face_cascade.detectMultiScale(gray,1.3,5)
             for (x,y,w,h) in detectface:
                 face_cropped=img[y:y+h,x:x+w]
                 BGR2GRAY=cv2.cvtColor(face_cropped,cv2.COLOR_BGR2GRAY)
-                cv2.imwrite('C:/Users/nisar/Documents/face_recognition/train/user.'+str(l)+'.jpg',BGR2GRAY)
+                cv2.imwrite('train/user.'+str(l)+'.jpg',BGR2GRAY)
 
 
 
@@ -100,7 +100,7 @@ class face_recognition:
     
 #***************Train data********************************
     def train_classiffier(self):
-        data_dir=(r"C:\Users\nisar\Documents\face_recognition\train")
+        data_dir=(r"train")
         path=[os.path.join(data_dir,file) for file in os.listdir(data_dir)]
 
         faces=[]
@@ -120,7 +120,7 @@ class face_recognition:
 #******************************Train the classifier*******************************************    
         clf=cv2.face.LBPHFaceRecognizer_create()
         clf.train(faces,ids)
-        clf.write(r"C:\Users\nisar\Documents\face_recognition\N_classifier.xml")
+        clf.write(r"N_classifier.xml")
         cv2.destroyAllWindows()
         messagebox.showinfo("Result","training dataset completed!!!!")
 
@@ -153,7 +153,7 @@ class face_recognition:
             
             return coord
             
-        path = ('C:/Users/nisar/Documents/face_recognition/test/')
+        path = ('test/')
         def recognize(img,clf,facecascade):
             c=0
             sum=0
@@ -167,13 +167,13 @@ class face_recognition:
 
         facecascade=cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
         clf=cv2.face.LBPHFaceRecognizer_create()
-        clf.read("C:/Users/nisar/Documents/face_recognition/N_classifier.xml")
+        clf.read("N_classifier.xml")
 
         
 
         while True:
             for l, filename in enumerate(os.listdir(path)):
-                img=cv2.imread('C:/Users/nisar/Documents/face_recognition/test/user.'+ str(l)+'.jpg')
+                img=cv2.imread('test/user.'+ str(l)+'.jpg')
                 #img_main=cv2.VideoCapture(0)
                 #ret, img2=img_main.read()
                 
